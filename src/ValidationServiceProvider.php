@@ -63,6 +63,13 @@ class ValidationServiceProvider extends ServiceProvider
             return __("laravel-validate-spa::validation.spanish_iban", ['attribute' => $attribute]);
         });
 
+        Validator::extend('spanish_postal_code', function ($attribute, $value, $parameters, $validator) {
+            return $this->validateSpanishPostalCode($value);
+        });
+        Validator::replacer('spanish_postal_code', function ($message, $attribute, $rule, $parameters) {
+            return __("laravel-validate-spa::validation.spanish_postal_code", ['attribute' => $attribute]);
+        });
+
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel-validate-spa');
 
         if ($this->app->runningInConsole()) {
@@ -194,6 +201,15 @@ class ValidationServiceProvider extends ServiceProvider
             $remainder = ($remainder * 10 + (int)$digit) % 97;
         }
         return $remainder === 1;
+    }
+
+    private function validateSpanishPostalCode($pcode)
+    {
+        if (!is_string($pcode) || !preg_match('/^[0-5][0-9]{4}$/', $pcode)) {
+            return false;
+        }
+        $province = (int)substr($pcode, 0, 2);
+        return $province >= 1 && $province <= 52;
     }
 
     public function register(): void

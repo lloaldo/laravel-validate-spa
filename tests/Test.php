@@ -278,4 +278,24 @@ class SpanishValidatorsTest extends TestCase
             $this->assertFalse($validator->fails(), "The IBAN $iban should be valid after normalization");
         }
     }
+
+    /** @test */
+    public function it_validates_correct_postal_codes()
+    {
+        $validCodes = ['28001', '08001', '48020'];
+        foreach ($validCodes as $code) {
+            $validator = Validator::make(['code' => $code], ['code' => 'spanish_postal_code']);
+            $this->assertFalse($validator->fails(), "The postal code $code should be valid");
+        }
+    }
+
+    /** @test */
+    public function it_rejects_incorrect_postal_codes()
+    {
+        $validCodes = ['2801', '108001', '98020'];
+        foreach ($validCodes as $code) {
+            $validator = Validator::make(['code' => $code], ['code' => 'spanish_postal_code']);
+            $this->assertTrue($validator->fails(), "The postal code $code should be valid");
+        }
+    }
 }

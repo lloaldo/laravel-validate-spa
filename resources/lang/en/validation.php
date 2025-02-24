@@ -18,4 +18,5 @@ return [
     'spanish_cif' => 'This is not a valid Spanish CIF.',
     'spanish_ssn' => 'This is not a valid Spanish Social Security Number.',
     'spanish_iban' => 'This is not a valid Spanish IBAN.',
+    'spanish_postal_code' => 'This is not valid Spanish Postal Code.',
 ];
