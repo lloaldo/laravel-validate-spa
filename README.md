@@ -1,6 +1,6 @@
 # Laravel Validate SPA
 
-A Laravel package that provides custom validation rules for Spanish identification numbers: NIF,NIE,CIF,SSN,IBAN,POSTAL CODE.
+A Laravel package that provides custom validation rules for Spanish identification numbers: NIF, NIE, CIF, SSN, IBAN, POSTAL CODE, PHONE.
 
 ## Features
 
@@ -9,6 +9,7 @@ A Laravel package that provides custom validation rules for Spanish identificati
 -   Validates Spanish SSN (Social Security Number).
 -   Validates Spanish IBAN (International Bank Account Number).
 -   Validates Postal Code Spanish.
+-   Validates Phone Number Spanish.
 -   Includes translatable error messages.
 -   Easy integration with Laravel's validation system.
 
@@ -48,7 +49,7 @@ A Laravel package that provides custom validation rules for Spanish identificati
 
 ### Validation Rules
 
-This package provides two custom validation rules: `personal_id`, `tax_identifier`, `spanish_nif`, `spanish_nie`, `spanish_cif`, `spanish_ssn`,`spanish_iban` and `spanish_postal_code`. You can use them in your controllers, form requests, or anywhere Laravel's validator is supported.
+This package provides two custom validation rules: `personal_id`, `tax_identifier`, `spanish_nif`, `spanish_nie`, `spanish_cif`, `spanish_ssn`,`spanish_iban`, `spanish_postal_code` and `spanish_phone`. You can use them in your controllers, form requests, or anywhere Laravel's validator is supported.
 
 #### Example in a Controller
 
@@ -59,13 +60,14 @@ public function store(Request $request)
 {
     $validated = $request->validate([
         'personal_id' => 'required|spanish_personal_id',    // NIF,NIE
-        'tax_identifier' => 'required|spanish_tax_number'   // NIF, NIE, CIF
+        'tax_identifier' => 'required|spanish_tax_number',   // NIF, NIE, CIF
         'nif' => 'required|spanish_nif',
         'nie' => 'required|spanish_nie',
         'cif' => 'nullable|spanish_cif',
         'ssn' => 'required|spanish_ssn',
         'iban' => 'required|spanish_iban',
         'address_postal_code' => 'nullable|spanish_postal_code',
+        'phone' => 'nullable|spanish_phone',
         'name' => 'required|string|max:255',
     ]);
 
@@ -109,6 +111,7 @@ return [
     'spanish_ssn' => 'El :attribute no es un Número de la Seguridad Social válido.',
     'spanish_iban' => 'El :attribute no es un IBAN español válido.',
     'spanish_postal_code' => 'El :attribute no es un código postal español válido.',
+    'spanish_phone' => 'El :attribute no es un número de teléfono español válido.',
 ];
 ```
 
@@ -120,15 +123,17 @@ You can test the validation rules using Laravel's `Validator` facade in Tinker:
 
 ```bash
 php artisan tinker
-Validator::make(['nif' => '12345678Z'], ['nif' => 'spanish_nif'])->fails() // false (valid)
-Validator::make(['nif' => '12345678A'], ['nif' => 'spanish_nif'])->fails() // true (invalid)
-Validator::make(['cif' => 'A12345678'], ['cif' => 'spanish_cif'])->fails() // false (valid)
-Validator::make(['ssn' => '280123456780'], ['ssn' => 'spanish_ssn'])->fails() // true (invalid)
-Validator::make(['ssn' => '280123456785'], ['ssn' => 'spanish_ssn'])->fails() // false (valid)
-Validator::make(['iban' => 'ES9121000418450200051332'], ['iban' => 'spanish_iban'])->fails() // false (valid)
-Validator::make(['iban' => 'ES9121000418450200051333'], ['iban' => 'spanish_iban'])->fails() // true (invalid)
+Validator::make(['nif' => 'XXXXXXZ'], ['nif' => 'spanish_nif'])->fails() // false (valid)
+Validator::make(['nif' => 'XXXXXXA'], ['nif' => 'spanish_nif'])->fails() // true (invalid)
+Validator::make(['cif' => 'AXXXXXX'], ['cif' => 'spanish_cif'])->fails() // false (valid)
+Validator::make(['ssn' => 'XXXXXXXXXXXX'], ['ssn' => 'spanish_ssn'])->fails() // true (invalid)
+Validator::make(['ssn' => 'XXXXXXXXXXXX'], ['ssn' => 'spanish_ssn'])->fails() // false (valid)
+Validator::make(['iban' => 'ESXXXXXXXXXXXXX'], ['iban' => 'spanish_iban'])->fails() // false (valid)
+Validator::make(['iban' => 'ESXXXXXXXXXXXXX'], ['iban' => 'spanish_iban'])->fails() // true (invalid)
 Validator::make(['postal_code' => '08001'], ['postal_code' => 'spanish_postal_code'])->fails() // false (valid)
 Validator::make(['postal_code' => '108001'], ['postal_code' => 'spanish_postal_code'])->fails() // false (invalid)
+Validator::make(['phone' => 'XXXXXXXX'], ['phone' => 'spanish_phone'])->fails() // false (valid)
+
 
 ```
 
@@ -139,6 +144,7 @@ Validator::make(['postal_code' => '108001'], ['postal_code' => 'spanish_postal_c
 -   **SSN**: Validates Spanish Social Security Numbers (12 digits: 2 for province code, 8 sequential digits, and 2 control digits) by checking the province code (01-99) and verifying the control digits using the modulo 97 algorithm.
 -   **IBAN**: Validates Spanish IBANs (24 characters: "ES" + 2 control digits + 20-digit bank account number) using the ISO 7064 MOD 97-10 algorithm, ensuring the country code is "ES" and the control digits are correct.
 -   **POSTAL CODE** Validates Spanish Postal Code
+-   **PHONE** Validates Spanish Phone Number
 
 ## Contributing
 

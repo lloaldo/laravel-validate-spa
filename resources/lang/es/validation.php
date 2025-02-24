@@ -19,4 +19,5 @@ return [
     'spanish_ssn' => 'No es un Número de la Seguridad Social válido.',
     'spanish_iban' => 'No es un IBAN español válido.',
     'spanish_postal_code' => 'No es un código postal español válido.',
+    'spanish_phone' => 'No es un número de teléfono español válido.',
 ];

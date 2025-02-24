@@ -70,6 +70,13 @@ class ValidationServiceProvider extends ServiceProvider
             return __("laravel-validate-spa::validation.spanish_postal_code", ['attribute' => $attribute]);
         });
 
+        Validator::extend('spanish_phone', function ($attribute, $value, $parameters, $validator) {
+            return $this->validateSpanishPhone($value);
+        });
+        Validator::replacer('spanish_phone', function ($message, $attribute, $rule, $parameters) {
+            return __("laravel-validate-spa::validation.spanish_phone", ['attribute' => $attribute]);
+        });
+
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel-validate-spa');
 
         if ($this->app->runningInConsole()) {
@@ -210,6 +217,15 @@ class ValidationServiceProvider extends ServiceProvider
         }
         $province = (int)substr($pcode, 0, 2);
         return $province >= 1 && $province <= 52;
+    }
+
+    private function validateSpanishPhone($phone)
+    {
+        if (!is_string($phone)) {
+            return false;
+        }
+        $value = preg_replace('/[^0-9]/', '', trim($phone));
+        return preg_match('/^[6-9][0-9]{8}$/', $value);
     }
 
     public function register(): void

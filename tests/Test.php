@@ -298,4 +298,14 @@ class SpanishValidatorsTest extends TestCase
             $this->assertTrue($validator->fails(), "The postal code $code should be valid");
         }
     }
+
+    /** @test */
+    public function it_validates_correct_phones()
+    {
+        $validPhones = ['612345678', '912345678', '712 345 678', '6-12-34-56-78'];
+        foreach ($validPhones as $phone) {
+            $validator = Validator::make(['phone' => $phone], ['phone' => 'spanish_phone']);
+            $this->assertFalse($validator->fails(), "The phone $phone should be valid");
+        }
+    }
 }
