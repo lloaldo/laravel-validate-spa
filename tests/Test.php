@@ -2,9 +2,9 @@
 
 namespace Lloaldo\LaravelValidateSpa\Tests;
 
-use Orchestra\Testbench\TestCase;
-use Lloaldo\LaravelValidateSpa\ValidationServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Lloaldo\LaravelValidateSpa\ValidationServiceProvider;
+use Orchestra\Testbench\TestCase;
 
 class SpanishValidatorsTest extends TestCase
 {
@@ -270,7 +270,7 @@ class SpanishValidatorsTest extends TestCase
     public function it_accepts_ibans_with_lowercase_and_spaces()
     {
         $specialIbans = [
-            ' ES9121000418450200051332 ', ' ES91 2100 0418 4502 0005 1332', ' ES8401526659251705626017  '
+            ' ES9121000418450200051332 ', ' ES91 2100 0418 4502 0005 1332', ' ES8401526659251705626017  ',
         ];
 
         foreach ($specialIbans as $iban) {
@@ -338,6 +338,7 @@ class SpanishValidatorsTest extends TestCase
             $this->assertTrue($validator->fails(), "The CCC $ccc should be invalid");
         }
     }
+
     /** @test */
     public function it_validates_correct_passports()
     {
