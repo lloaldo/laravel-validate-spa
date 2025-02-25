@@ -13,7 +13,7 @@ POSTAL CODE, PHONE, LICENSE PLATE, CCC, PASSPORT .
 -   Validates Phone Number Spanish.
 -   Validates Spanish License plate vehicle(Vehículos Matrícula Española).
 -   Validates Spanish CCC(Old Spanish Bank Account, precursor of the IBAN).
--   Validates Spanish Passport(Old Spanish Bank Account, precursor of the IBAN).
+-   Validates Spanish Passport.
 -   Includes translatable error messages.
 -   Easy integration with Laravel's validation system.
 
