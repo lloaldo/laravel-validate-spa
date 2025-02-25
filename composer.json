@@ -1,6 +1,6 @@
 {
     "name": "lloaldo/laravel-validate-spa",
-    "description": "Spanish Custom Validation Package for Laravel",
+    "description": "Spanish Custom Validation Package for Laravel CIF, NIF, NIE, NSS, IBAN, Postal Code, Phone numbers, License plate...",
     "keywords": [
         "php",
         "laravel-validate-spa",

@@ -144,7 +144,7 @@ class SpanishValidatorsTest extends TestCase
     public function it_validates_correct_cifs()
     {
         $validCifs = [
-            'A58818501', 'B63679435', 'U26543876', 'N9876543A',
+            'A58818501', 'B63679435', 'U26543876', 'N9876543A', 'Q28012342',
         ];
 
         foreach ($validCifs as $cif) {
@@ -295,7 +295,7 @@ class SpanishValidatorsTest extends TestCase
         $validCodes = ['2801', '108001', '98020'];
         foreach ($validCodes as $code) {
             $validator = Validator::make(['code' => $code], ['code' => 'spanish_postal_code']);
-            $this->assertTrue($validator->fails(), "The postal code $code should be valid");
+            $this->assertTrue($validator->fails(), "The postal code $code should be invalid");
         }
     }
 
@@ -306,6 +306,55 @@ class SpanishValidatorsTest extends TestCase
         foreach ($validPhones as $phone) {
             $validator = Validator::make(['phone' => $phone], ['phone' => 'spanish_phone']);
             $this->assertFalse($validator->fails(), "The phone $phone should be valid");
+        }
+    }
+
+    /** @test */
+    public function it_validates_correct_license_plates()
+    {
+        $validPlates = ['1234BCD', '0000XYZ', '5678KLM'];
+        foreach ($validPlates as $plate) {
+            $validator = Validator::make(['plate' => $plate], ['plate' => 'spanish_license_plate']);
+            $this->assertFalse($validator->fails(), "The license plate $plate should be valid");
+        }
+    }
+
+    /** @test */
+    public function it_validates_correct_cccs()
+    {
+        $validCccs = ['2100 0418 45 0200051332', '20850668313101824285'];
+        foreach ($validCccs as $ccc) {
+            $validator = Validator::make(['ccc' => $ccc], ['ccc' => 'spanish_ccc']);
+            $this->assertFalse($validator->fails(), "The CCC $ccc should be valid");
+        }
+    }
+
+    /** @test */
+    public function it_rejects_invalid_cccs()
+    {
+        $validCccs = ['2085 0668 24 3101824287', '20850668393101824285'];
+        foreach ($validCccs as $ccc) {
+            $validator = Validator::make(['ccc' => $ccc], ['ccc' => 'spanish_ccc']);
+            $this->assertTrue($validator->fails(), "The CCC $ccc should be invalid");
+        }
+    }
+    /** @test */
+    public function it_validates_correct_passports()
+    {
+        $validPassports = ['ABC123456', 'XYZ987654'];
+        foreach ($validPassports as $passport) {
+            $validator = Validator::make(['passport' => $passport], ['passport' => 'spanish_passport']);
+            $this->assertFalse($validator->fails(), "The passport $passport should be valid");
+        }
+    }
+
+    /** @test */
+    public function it_rejects_incorrect_passports()
+    {
+        $invalidPassports = ['XYZ9876a54', 'XYZ9876A54'];
+        foreach ($invalidPassports as $passport) {
+            $validator = Validator::make(['passport' => $passport], ['passport' => 'spanish_passport']);
+            $this->assertTrue($validator->fails(), "The passport $passport should be invalid");
         }
     }
 }

@@ -1,6 +1,7 @@
 # Laravel Validate SPA
 
-A Laravel package that provides custom validation rules for Spanish identification numbers: NIF, NIE, CIF, SSN, IBAN, POSTAL CODE, PHONE.
+A Laravel package that provides custom validation rules for Spanish identification numbers: NIF, NIE, CIF, SSN, IBAN,
+POSTAL CODE, PHONE, LICENSE PLATE, CCC, PASSPORT .
 
 ## Features
 
@@ -10,6 +11,9 @@ A Laravel package that provides custom validation rules for Spanish identificati
 -   Validates Spanish IBAN (International Bank Account Number).
 -   Validates Postal Code Spanish.
 -   Validates Phone Number Spanish.
+-   Validates Spanish License plate vehicle(Vehículos Matrícula Española).
+-   Validates Spanish CCC(Old Spanish Bank Account, precursor of the IBAN).
+-   Validates Spanish Passport(Old Spanish Bank Account, precursor of the IBAN).
 -   Includes translatable error messages.
 -   Easy integration with Laravel's validation system.
 
@@ -49,7 +53,7 @@ A Laravel package that provides custom validation rules for Spanish identificati
 
 ### Validation Rules
 
-This package provides two custom validation rules: `personal_id`, `tax_identifier`, `spanish_nif`, `spanish_nie`, `spanish_cif`, `spanish_ssn`,`spanish_iban`, `spanish_postal_code` and `spanish_phone`. You can use them in your controllers, form requests, or anywhere Laravel's validator is supported.
+This package provides two custom validation rules: `personal_id`, `tax_identifier`, `spanish_nif`, `spanish_nie`, `spanish_cif`, `spanish_ssn`,`spanish_iban`, `spanish_postal_code`, `spanish_phone`, `spanish_license_plate` `spanish_ccc`and `spanish_passport`. You can use them in your controllers, form requests, or anywhere Laravel's validator is supported.
 
 #### Example in a Controller
 
@@ -68,6 +72,9 @@ public function store(Request $request)
         'iban' => 'required|spanish_iban',
         'address_postal_code' => 'nullable|spanish_postal_code',
         'phone' => 'nullable|spanish_phone',
+        'license_plate' => 'nullable|spanish_license_plate',
+        'ccc' => 'nullable|spanish_ccc',
+        'passport' => 'nullable|spanish_passport',
         'name' => 'required|string|max:255',
     ]);
 
@@ -112,6 +119,9 @@ return [
     'spanish_iban' => 'El :attribute no es un IBAN español válido.',
     'spanish_postal_code' => 'El :attribute no es un código postal español válido.',
     'spanish_phone' => 'El :attribute no es un número de teléfono español válido.',
+    'spanish_license_plate' => 'El :attribute no es una matrícula española válida.',
+    'spanish_ccc' => 'El :attribute no es un CCC español válido.',
+    'spanish_passport' => 'El :attribute es un pasaporte español válido.',
 ];
 ```
 
@@ -133,7 +143,9 @@ Validator::make(['iban' => 'ESXXXXXXXXXXXXX'], ['iban' => 'spanish_iban'])->fail
 Validator::make(['postal_code' => '08001'], ['postal_code' => 'spanish_postal_code'])->fails() // false (valid)
 Validator::make(['postal_code' => '108001'], ['postal_code' => 'spanish_postal_code'])->fails() // false (invalid)
 Validator::make(['phone' => 'XXXXXXXX'], ['phone' => 'spanish_phone'])->fails() // false (valid)
-
+Validator::make(['license_plate' => 'XXXXABC'], ['license_plate' => 'spanish_license_plate'])->fails() // false (valid)
+Validator::make(['ccc' => 'XXXX XXXX XX XXXXXXXXXX'], ['ccc' => 'spanish_ccc'])->fails() // false (valid)
+Validator::make(['passport' => 'ABCXXXXXX'], ['ccc' => 'spanish_passport'])->fails() // false (valid)
 
 ```
 
@@ -145,6 +157,9 @@ Validator::make(['phone' => 'XXXXXXXX'], ['phone' => 'spanish_phone'])->fails() 
 -   **IBAN**: Validates Spanish IBANs (24 characters: "ES" + 2 control digits + 20-digit bank account number) using the ISO 7064 MOD 97-10 algorithm, ensuring the country code is "ES" and the control digits are correct.
 -   **POSTAL CODE** Validates Spanish Postal Code
 -   **PHONE** Validates Spanish Phone Number
+-   **VEHICLE LICENSE PLATE** Validates Spanish License Plate Car(vehículos Matrículas española)
+-   **CCC** Validates Spanish Old Spanish Bank Account, precursor of the IBAN
+-   **PASSPORT** Validates Spanish Passport
 
 ## Contributing
 

@@ -20,4 +20,7 @@ return [
     'spanish_iban' => 'No es un IBAN español válido.',
     'spanish_postal_code' => 'No es un código postal español válido.',
     'spanish_phone' => 'No es un número de teléfono español válido.',
+    'spanish_license_plate' => 'No es una matrícula española válida.',
+    'spanish_ccc' => 'No es un CCC español válido.',
+    'spanish_passport' => 'No es un pasaporte español válido.',
 ];
